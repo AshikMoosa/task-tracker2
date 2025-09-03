@@ -3,7 +3,7 @@ import { Button, HStack } from "@chakra-ui/react";
 import { Container, VStack } from "@chakra-ui/react";
 import Header from "./components/Header.jsx";
 import AddTask from "./components/AddTask.jsx";
-import Task from "./components/Task.jsx";
+import Tasks from "./components/Tasks.jsx";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <VStack align="normal">
         <Header headingText="Task Tracker" buttonText="Add" />
         <AddTask />
-        <Task />
+        <Tasks />
       </VStack>
     </Container>
   );
