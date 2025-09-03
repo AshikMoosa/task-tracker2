@@ -1,10 +1,10 @@
 import { Heading, Flex, Spacer, Button } from "@chakra-ui/react";
 import { X } from "lucide-react";
 
-const Header = (props) => {
+const Header = ({ text }) => {
   return (
     <Flex justify="space-between">
-      <Heading>{props.text}</Heading>
+      <Heading>{text}</Heading>
       <Button>Close</Button>
     </Flex>
   );
