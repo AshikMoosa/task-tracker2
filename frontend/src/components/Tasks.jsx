@@ -1,33 +1,13 @@
-import { useState } from "react";
 import { Container, VStack } from "@chakra-ui/react";
+import { Flex, Text, IconButton } from "@chakra-ui/react";
 import Task from "./Task.jsx";
 
-const Tasks = () => {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: "Doctors Appointment",
-      deadline: "Sept 3rd at 2:30pm",
-      reminder: true,
-    },
-    {
-      id: 2,
-      text: "Friends Party",
-      deadline: "Sept 4th at 2:30pm",
-      reminder: true,
-    },
-    {
-      id: 3,
-      text: "Shopping at Tesco",
-      deadline: "Sept 5th at 10:30am",
-      reminder: true,
-    },
-  ]);
-
+const Tasks = ({ task }) => {
+  if (!task || task.length === 0) return <Text>No tasks for today!!</Text>;
   return (
     <VStack align="normal">
-      {tasks.map((task, index) => (
-        <Task key={index} taskName={task.text} taskDeadline={task.deadline} />
+      {task.map((item, index) => (
+        <Task key={index} taskName={item.text} taskDeadline={item.deadline} />
       ))}
     </VStack>
   );
