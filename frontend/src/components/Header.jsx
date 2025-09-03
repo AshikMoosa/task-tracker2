@@ -1,11 +1,15 @@
 import { Heading, Flex, Spacer, Button } from "@chakra-ui/react";
 import { X } from "lucide-react";
 
-const Header = ({ text }) => {
+const Header = ({ headingText, buttonText }) => {
+  const handleClick = () => {
+    console.log("button clicked!!");
+  };
+
   return (
     <Flex justify="space-between">
-      <Heading>{text}</Heading>
-      <Button>Close</Button>
+      <Heading>{headingText}</Heading>
+      <Button onClick={handleClick}>{buttonText}</Button>
     </Flex>
   );
 };
