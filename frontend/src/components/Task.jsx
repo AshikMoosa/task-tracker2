@@ -3,11 +3,7 @@ import { Container } from "@chakra-ui/react";
 import { CloseButton } from "@chakra-ui/react";
 import { Flex, Text, IconButton } from "@chakra-ui/react";
 
-const Task = ({ taskName, taskDeadline }) => {
-  const handleDelete = () => {
-    console.log("Delete task!!");
-  };
-
+const Task = ({ item, handleDelete }) => {
   return (
     <Flex
       justifyContent="space-between"
@@ -17,11 +13,11 @@ const Task = ({ taskName, taskDeadline }) => {
       borderRadius="md"
     >
       <Flex direction="column">
-        <Text>{taskName ? taskName : "Test Task"}</Text>
-        <Text>{taskDeadline ? taskDeadline : "Test Deadline"}</Text>
+        <Text>{item.text ? item.text : "Test Task"}</Text>
+        <Text>{item.day ? item.day : "Test Deadline"}</Text>
       </Flex>
       <CloseButton
-        onClick={handleDelete}
+        onClick={() => handleDelete(item.id)}
         alignItems="baseline"
         color="red.500"
       />

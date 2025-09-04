@@ -1,6 +1,6 @@
 import { Field, Input, Checkbox, Button, Flex } from "@chakra-ui/react";
 
-const AddTask = () => {
+const TaskForm = () => {
   return (
     <form>
       <Flex gap="4" direction="column">
@@ -21,4 +21,4 @@ const AddTask = () => {
   );
 };
 
-export default AddTask;
+export default TaskForm;
