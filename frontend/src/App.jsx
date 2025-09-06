@@ -8,7 +8,12 @@ import Tasks from "./components/Tasks.jsx";
 import taskData from "./data/TaskData.js";
 
 function App() {
-  const [task, setTask] = useState(taskData);
+  const [task, setTask] = useState(taskData); // Tasks stored in TaskData
+  const [showForm, setShowForm] = useState(true);
+
+  const toggleForm = () => {
+    setShowForm(!showForm);
+  };
 
   const deleteTask = (id) => {
     console.log(`delete task ${id}`);
@@ -17,11 +22,20 @@ function App() {
     }
   };
 
+  const addTask = (newTask) => {
+    console.log("From APP.jsx", newTask);
+  };
+
   return (
     <Container border="1px solid" p="1em">
       <VStack align="normal">
-        <Header headingText="Task Tracker" buttonText="Add" />
-        <TaskForm />
+        <Header
+          headingText="Task Tracker"
+          buttonText={showForm ? "Close" : "Add"}
+          onToggleForm={toggleForm}
+          showForm={showForm}
+        />
+        {showForm && <TaskForm handleAdd={addTask} />}
         <Tasks task={task} handleDelete={deleteTask} />
       </VStack>
     </Container>
