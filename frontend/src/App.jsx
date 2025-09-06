@@ -6,6 +6,7 @@ import Header from "./components/Header.jsx";
 import TaskForm from "./components/TaskForm.jsx";
 import Tasks from "./components/Tasks.jsx";
 import taskData from "./data/TaskData.js";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [task, setTask] = useState(taskData); // Tasks stored in TaskData
@@ -23,7 +24,9 @@ function App() {
   };
 
   const addTask = (newTask) => {
-    console.log("From APP.jsx", newTask);
+    newTask.id = uuidv4();
+    setTask([...task, newTask]);
+    console.log(taskData);
   };
 
   return (

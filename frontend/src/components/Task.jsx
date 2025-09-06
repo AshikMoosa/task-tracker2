@@ -15,7 +15,7 @@ const Task = ({ item, handleDelete, reminder = true }) => {
       borderLeftColor={reminder ? "green.400" : "none"}
     >
       <Flex direction="column">
-        <Text>{item.text ? item.text : "Test Task"}</Text>
+        <Text>{item.name ? item.name : "Test Task"}</Text>
         <Text>{item.day ? item.day : "Test Deadline"}</Text>
       </Flex>
       <CloseButton

@@ -27,7 +27,6 @@ const TaskForm = ({ handleAdd }) => {
       reminder,
     };
     handleAdd(newTask);
-    console.log(newTask);
   };
 
   return (

@@ -1,19 +1,19 @@
 const taskData = [
   {
     id: 1,
-    text: "Doctors Appointment",
+    name: "Doctors Appointment",
     day: "Sept 3rd at 2:30pm",
     reminder: true,
   },
   {
     id: 2,
-    text: "Friends Party",
+    name: "Friends Party",
     day: "Sept 4th at 2:30pm",
     reminder: true,
   },
   {
     id: 3,
-    text: "Shopping at Tesco",
+    name: "Shopping at Tesco",
     day: "Sept 5th at 10:30am",
     reminder: true,
   },
