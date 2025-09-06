@@ -1,12 +1,15 @@
 import "./App.css";
 import { useState } from "react";
 import { Button, HStack } from "@chakra-ui/react";
-import { Container, VStack } from "@chakra-ui/react";
+import { Container, VStack, Separator } from "@chakra-ui/react";
 import Header from "./components/Header.jsx";
+import Footer from "./components/Footer.jsx";
 import TaskForm from "./components/TaskForm.jsx";
 import Tasks from "./components/Tasks.jsx";
 import taskData from "./data/TaskData.js";
+import About from "./pages/About.jsx";
 import { v4 as uuidv4 } from "uuid";
+import { BrowserRouter as Router, Route, Routes } from "react-router";
 
 function App() {
   const [task, setTask] = useState(taskData); // Tasks stored in TaskData
@@ -30,18 +33,34 @@ function App() {
   };
 
   return (
-    <Container border="1px solid" p="1em">
-      <VStack align="normal">
-        <Header
-          headingText="Task Tracker"
-          buttonText={showForm ? "Close" : "Add"}
-          onToggleForm={toggleForm}
-          showForm={showForm}
-        />
-        {showForm && <TaskForm handleAdd={addTask} />}
-        <Tasks task={task} handleDelete={deleteTask} />
-      </VStack>
-    </Container>
+    <Router>
+      <Container border="1px solid" p="1.5em">
+        <VStack align="normal">
+          <Header
+            headingText="Task Tracker"
+            buttonText={showForm ? "Close" : "Add"}
+            onToggleForm={toggleForm}
+            showForm={showForm}
+          />
+          <Separator />
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <>
+                  {showForm && <TaskForm handleAdd={addTask} />}
+                  <Tasks task={task} handleDelete={deleteTask} />
+                </>
+              }
+            ></Route>
+            <Route path="/about" element={<About />} />
+          </Routes>
+          <Separator />
+          <Footer />
+        </VStack>
+      </Container>
+    </Router>
   );
 }
 

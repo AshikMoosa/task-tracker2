@@ -3,7 +3,7 @@ import { X } from "lucide-react";
 
 const Header = ({ headingText, buttonText, onToggleForm, showForm }) => {
   const handleClick = () => {
-    console.log("button clicked!!");
+    onToggleForm();
   };
 
   return (
