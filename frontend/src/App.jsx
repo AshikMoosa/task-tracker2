@@ -1,9 +1,9 @@
 import "./App.css";
 import { useState } from "react";
-import { Button, HStack } from "@chakra-ui/react";
 import { Container, VStack, Separator } from "@chakra-ui/react";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
+import ConfirmationDialog from "./components/ConfirmationDialog.jsx";
 import TaskForm from "./components/TaskForm.jsx";
 import Tasks from "./components/Tasks.jsx";
 import taskData from "./data/TaskData.js";
@@ -15,6 +15,8 @@ function App() {
   const [task, setTask] = useState(taskData); // Tasks stored in TaskData
   const [showForm, setShowForm] = useState(true);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [taskIdToDelete, setTaskIdToDelete] = useState(null);
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -28,11 +30,19 @@ function App() {
     console.log(taskData);
   };
 
-  const deleteTask = (id) => {
-    console.log(`delete task ${id}`);
-    if (window.confirm("Are you sure want to delete this task?")) {
-      setTask(task.filter((item) => item.id !== id));
-    }
+  const startDeleteProcess = (id) => {
+    setTaskIdToDelete(id);
+    setIsAlertOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setTask(task.filter((item) => item.id !== taskIdToDelete));
+    setIsAlertOpen(false);
+    setTaskIdToDelete(null);
+  };
+  const handleCancelDelete = () => {
+    setIsAlertOpen(false);
+    setTaskIdToDelete(null);
   };
 
   const getAndPrepareTaskData = (item) => {
@@ -60,6 +70,14 @@ function App() {
             showForm={showForm}
           />
           <Separator />
+          <ConfirmationDialog
+            isOpen={isAlertOpen}
+            onCancel={handleCancelDelete}
+            onConfirm={handleConfirmDelete}
+            headerText="Delete Task"
+            bodyText="Are you sure you want to delete this task? This action cannot be undone."
+            size="xs"
+          />
           <Routes>
             <Route
               exact
@@ -75,7 +93,7 @@ function App() {
                   )}
                   <Tasks
                     task={task}
-                    handleDelete={deleteTask}
+                    handleDelete={startDeleteProcess}
                     handleUpdate={getAndPrepareTaskData}
                   />
                 </>
