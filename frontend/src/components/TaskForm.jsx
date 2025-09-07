@@ -62,7 +62,10 @@ const TaskForm = ({ handleAdd, handleUpdateData, taskToUpdate }) => {
             onChange={(e) => setDay(e.target.value)}
           />
         </Field.Root>
-        <Checkbox.Root onChange={(e) => setReminder(e.target.checked)}>
+        <Checkbox.Root
+          checked={reminder}
+          onCheckedChange={(details) => setReminder(details.checked)}
+        >
           <Checkbox.HiddenInput />
           <Checkbox.Control />
           <Checkbox.Label>Set Reminder</Checkbox.Label>

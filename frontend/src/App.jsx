@@ -35,15 +35,6 @@ function App() {
     }
   };
 
-  // const updateTask = (updatedTask) => {
-  //   console.log(updatedTask);
-  //   setTask(
-  //     task.map((item) => (item.id === updatedTask.id ? updatedTask : item))
-  //   );
-  //   setTaskToUpdate(updatedTask); // Set the state with the task data
-  //   setShowForm(true);
-  // };
-
   const getAndPrepareTaskData = (item) => {
     setTaskToUpdate(item);
     setShowForm(true);
