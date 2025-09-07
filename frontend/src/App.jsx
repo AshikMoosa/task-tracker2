@@ -14,9 +14,18 @@ import { BrowserRouter as Router, Route, Routes } from "react-router";
 function App() {
   const [task, setTask] = useState(taskData); // Tasks stored in TaskData
   const [showForm, setShowForm] = useState(true);
+  const [taskToUpdate, setTaskToUpdate] = useState(null);
 
   const toggleForm = () => {
     setShowForm(!showForm);
+  };
+
+  const addTask = (newTask) => {
+    newTask.id = uuidv4();
+    setTask([...task, newTask]);
+    setTaskToUpdate(null);
+    setShowForm(false);
+    console.log(taskData);
   };
 
   const deleteTask = (id) => {
@@ -26,10 +35,27 @@ function App() {
     }
   };
 
-  const addTask = (newTask) => {
-    newTask.id = uuidv4();
-    setTask([...task, newTask]);
-    console.log(taskData);
+  // const updateTask = (updatedTask) => {
+  //   console.log(updatedTask);
+  //   setTask(
+  //     task.map((item) => (item.id === updatedTask.id ? updatedTask : item))
+  //   );
+  //   setTaskToUpdate(updatedTask); // Set the state with the task data
+  //   setShowForm(true);
+  // };
+
+  const getAndPrepareTaskData = (item) => {
+    setTaskToUpdate(item);
+    setShowForm(true);
+  };
+
+  // This function is called from the TaskForm component to update the main state
+  const updateTaskData = (updatedTask) => {
+    setTask(
+      task.map((item) => (item.id === updatedTask.id ? updatedTask : item))
+    );
+    setTaskToUpdate(null); // Clear the taskToUpdate state
+    setShowForm(false); // Hide the form after updating
   };
 
   return (
@@ -49,8 +75,18 @@ function App() {
               path="/"
               element={
                 <>
-                  {showForm && <TaskForm handleAdd={addTask} />}
-                  <Tasks task={task} handleDelete={deleteTask} />
+                  {showForm && (
+                    <TaskForm
+                      handleAdd={addTask}
+                      handleUpdateData={updateTaskData}
+                      taskToUpdate={taskToUpdate}
+                    />
+                  )}
+                  <Tasks
+                    task={task}
+                    handleDelete={deleteTask}
+                    handleUpdate={getAndPrepareTaskData}
+                  />
                 </>
               }
             ></Route>

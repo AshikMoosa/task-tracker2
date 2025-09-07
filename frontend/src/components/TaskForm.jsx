@@ -1,32 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Field, Input, Checkbox, Button, Flex } from "@chakra-ui/react";
 
-const TaskForm = ({ handleAdd }) => {
+const TaskForm = ({ handleAdd, handleUpdateData, taskToUpdate }) => {
   const [name, setName] = useState("");
   const [day, setDay] = useState("");
   const [reminder, setReminder] = useState(false);
 
-  const handleName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleDay = (e) => {
-    setDay(e.target.value);
-  };
-
-  const handleReminder = (e) => {
-    setReminder(e.target.checked);
-  };
+  useEffect(() => {
+    if (taskToUpdate) {
+      setName(taskToUpdate.name);
+      setDay(taskToUpdate.day);
+      setReminder(taskToUpdate.reminder);
+    } else {
+      // Clear the form if no task is being updated
+      setName("");
+      setDay("");
+      setReminder(false);
+    }
+  }, [taskToUpdate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newTask = {
-      name,
-      day,
-      reminder,
-    };
-    handleAdd(newTask);
+    if (!name || !day) {
+      alert("Please fill out all fields!");
+      return;
+    }
+
+    if (taskToUpdate) {
+      const updatedTask = { ...taskToUpdate, name, day, reminder };
+      handleUpdateData(updatedTask);
+    } else {
+      const newTask = { name, day, reminder };
+      handleAdd(newTask);
+    }
+
+    // Reset the form fields after submission
+    setName("");
+    setDay("");
+    setReminder(false);
   };
 
   return (
@@ -39,7 +51,7 @@ const TaskForm = ({ handleAdd }) => {
             minLength={5}
             id="taskname"
             value={name}
-            onChange={handleName}
+            onChange={(e) => setName(e.target.value)}
           />
           <Field.Label htmlFor="taskday">Day & Time</Field.Label>
           <Input
@@ -47,15 +59,17 @@ const TaskForm = ({ handleAdd }) => {
             minLength={5}
             id="taskday"
             value={day}
-            onChange={handleDay}
+            onChange={(e) => setDay(e.target.value)}
           />
         </Field.Root>
-        <Checkbox.Root onChange={handleReminder}>
+        <Checkbox.Root onChange={(e) => setReminder(e.target.checked)}>
           <Checkbox.HiddenInput />
           <Checkbox.Control />
           <Checkbox.Label>Set Reminder</Checkbox.Label>
         </Checkbox.Root>
-        <Button type="submit">Save Task</Button>
+        <Button type="submit">
+          {taskToUpdate ? "Update Task" : "Save Task"}
+        </Button>
       </Flex>
     </form>
   );
