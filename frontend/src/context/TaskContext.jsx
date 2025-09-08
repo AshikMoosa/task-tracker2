@@ -5,21 +5,11 @@ import { v4 as uuidv4 } from "uuid";
 const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
-  // const [task, setTask] = useState({
-  //   id: 1,
-  //   name: "Task from Context",
-  //   day: "Sept 9 at 10pm",
-  //   reminder: true,
-  // });
   const [task, setTask] = useState(taskData); // Tasks stored in TaskData
-  const [showForm, setShowForm] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [taskIdToDelete, setTaskIdToDelete] = useState(null);
-
-  const toggleForm = () => {
-    setShowForm(!showForm);
-  };
 
   const addTask = (newTask) => {
     newTask.id = uuidv4();
@@ -66,7 +56,7 @@ export const TaskProvider = ({ children }) => {
         taskToUpdate,
         isAlertOpen,
         taskIdToDelete,
-        toggleForm,
+        setShowForm,
         addTask,
         startDeleteProcess,
         handleConfirmDelete,

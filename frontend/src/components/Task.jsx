@@ -1,8 +1,11 @@
-import { CloseButton, IconButton } from "@chakra-ui/react";
-import { Flex, Text } from "@chakra-ui/react";
-import { Pencil, X } from "lucide-react";
+import { useContext } from "react";
+import { Flex, Text, CloseButton, IconButton } from "@chakra-ui/react";
+import { Pencil } from "lucide-react";
+import TaskContext from "../context/TaskContext.jsx";
 
-const Task = ({ item, handleUpdate, handleDelete }) => {
+const Task = ({ item }) => {
+  const { startDeleteProcess, getAndPrepareTaskData } = useContext(TaskContext);
+
   return (
     <Flex
       justifyContent="space-between"
@@ -22,12 +25,12 @@ const Task = ({ item, handleUpdate, handleDelete }) => {
           variant="ghost"
           size="sm"
           alignItems="baseline"
-          onClick={() => handleUpdate(item)}
+          onClick={() => getAndPrepareTaskData(item)}
         >
           <Pencil />
         </IconButton>
         <CloseButton
-          onClick={() => handleDelete(item.id)}
+          onClick={() => startDeleteProcess(item.id)}
           color="red.500"
           alignItems="baseline"
         />

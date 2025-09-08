@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Field, Input, Checkbox, Button, Flex } from "@chakra-ui/react";
+import TaskContext from "../context/TaskContext.jsx";
 
-const TaskForm = ({ handleAdd, handleUpdateData, taskToUpdate }) => {
+const TaskForm = () => {
+  const { showForm, addTask, updateTaskData, taskToUpdate } =
+    useContext(TaskContext);
   const [name, setName] = useState("");
   const [day, setDay] = useState("");
   const [reminder, setReminder] = useState(false);
@@ -29,10 +32,10 @@ const TaskForm = ({ handleAdd, handleUpdateData, taskToUpdate }) => {
 
     if (taskToUpdate) {
       const updatedTask = { ...taskToUpdate, name, day, reminder };
-      handleUpdateData(updatedTask);
+      updateTaskData(updatedTask);
     } else {
       const newTask = { name, day, reminder };
-      handleAdd(newTask);
+      addTask(newTask);
     }
 
     // Reset the form fields after submission
@@ -40,6 +43,11 @@ const TaskForm = ({ handleAdd, handleUpdateData, taskToUpdate }) => {
     setDay("");
     setReminder(false);
   };
+
+  // If the showForm state is false, return null to render nothing
+  if (!showForm) {
+    return null;
+  }
 
   return (
     <form onSubmit={handleSubmit}>

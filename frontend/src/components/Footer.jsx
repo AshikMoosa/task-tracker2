@@ -1,4 +1,4 @@
-import { Heading, Highlight, Flex } from "@chakra-ui/react";
+import { Heading, Flex } from "@chakra-ui/react";
 import { Link, useLocation } from "react-router";
 
 const Footer = () => {

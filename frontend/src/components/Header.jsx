@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { Heading, Flex, Spacer, Button } from "@chakra-ui/react";
+import { Heading, Flex, Button } from "@chakra-ui/react";
 import TaskContext from "../context/TaskContext.jsx";
 
 const Header = () => {
-  const { toggleForm, showForm } = useContext(TaskContext);
+  const { showForm, setShowForm } = useContext(TaskContext);
 
   const handleClick = () => {
-    toggleForm();
+    setShowForm(!showForm);
   };
 
   return (
