@@ -6,10 +6,21 @@ const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [task, setTask] = useState(taskData); // Tasks stored in TaskData
+
+  // Special Code for using localStorage
+  // const [task, setTask] = useState(() => {
+  //   const savedTasks = localStorage.getItem("tasks");
+  //   return savedTasks ? JSON.parse(savedTasks) : taskData;
+  // });
   const [showForm, setShowForm] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [taskIdToDelete, setTaskIdToDelete] = useState(null);
+
+  // LocalStorage - This effect runs whenever the `tasks` state changes
+  // useEffect(() => {
+  //   localStorage.setItem("tasks", JSON.stringify(task));
+  // }, [task]);
 
   const addTask = (newTask) => {
     newTask.id = uuidv4();
