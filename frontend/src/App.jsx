@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 import { Container, VStack, Separator } from "@chakra-ui/react";
+import { TaskProvider } from "./context/TaskContext.jsx";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import ConfirmationDialog from "./components/ConfirmationDialog.jsx";
@@ -12,7 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import { BrowserRouter as Router, Route, Routes } from "react-router";
 
 function App() {
-  const [task, setTask] = useState(taskData); // Tasks stored in TaskData
+  /*const [task, setTask] = useState(taskData); // Tasks stored in TaskData
   const [showForm, setShowForm] = useState(true);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -58,54 +59,51 @@ function App() {
     setTaskToUpdate(null); // Clear the taskToUpdate state
     setShowForm(false); // Hide the form after updating
   };
-
+ */
   return (
-    <Router>
-      <Container border="1px solid" p="1.5em">
-        <VStack align="normal">
-          <Header
-            headingText="Task Tracker"
-            buttonText={showForm ? "Close" : "Add"}
-            onToggleForm={toggleForm}
-            showForm={showForm}
-          />
-          <Separator />
-          <ConfirmationDialog
-            isOpen={isAlertOpen}
-            onCancel={handleCancelDelete}
-            onConfirm={handleConfirmDelete}
-            headerText="Delete Task"
-            bodyText="Are you sure you want to delete this task? This action cannot be undone."
-            size="xs"
-          />
-          <Routes>
-            <Route
-              exact
-              path="/"
-              element={
-                <>
-                  {showForm && (
-                    <TaskForm
-                      handleAdd={addTask}
-                      handleUpdateData={updateTaskData}
-                      taskToUpdate={taskToUpdate}
+    <TaskProvider>
+      <Router>
+        <Container border="1px solid" p="1.5em">
+          <VStack align="normal">
+            <Header />
+            <Separator />
+            <ConfirmationDialog
+              isOpen={isAlertOpen}
+              onCancel={handleCancelDelete}
+              onConfirm={handleConfirmDelete}
+              headerText="Delete Task"
+              bodyText="Are you sure you want to delete this task? This action cannot be undone."
+              size="xs"
+            />
+            <Routes>
+              <Route
+                exact
+                path="/"
+                element={
+                  <>
+                    {showForm && (
+                      <TaskForm
+                        handleAdd={addTask}
+                        handleUpdateData={updateTaskData}
+                        taskToUpdate={taskToUpdate}
+                      />
+                    )}
+                    <Tasks
+                      task={task}
+                      handleDelete={startDeleteProcess}
+                      handleUpdate={getAndPrepareTaskData}
                     />
-                  )}
-                  <Tasks
-                    task={task}
-                    handleDelete={startDeleteProcess}
-                    handleUpdate={getAndPrepareTaskData}
-                  />
-                </>
-              }
-            ></Route>
-            <Route path="/about" element={<About />} />
-          </Routes>
-          <Separator />
-          <Footer />
-        </VStack>
-      </Container>
-    </Router>
+                  </>
+                }
+              ></Route>
+              <Route path="/about" element={<About />} />
+            </Routes>
+            <Separator />
+            <Footer />
+          </VStack>
+        </Container>
+      </Router>
+    </TaskProvider>
   );
 }
 

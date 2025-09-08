@@ -1,16 +1,19 @@
+import { useContext } from "react";
 import { Heading, Flex, Spacer, Button } from "@chakra-ui/react";
-import { X } from "lucide-react";
+import TaskContext from "../context/TaskContext.jsx";
 
-const Header = ({ headingText, buttonText, onToggleForm, showForm }) => {
+const Header = () => {
+  const { toggleForm, showForm } = useContext(TaskContext);
+
   const handleClick = () => {
-    onToggleForm();
+    toggleForm();
   };
 
   return (
     <Flex justify="space-between">
-      <Heading>{headingText}</Heading>
+      <Heading>Task Tracker</Heading>
       <Button onClick={handleClick} colorPalette={showForm ? "red" : "gray"}>
-        {buttonText}
+        {showForm ? "Close" : "Add"}
       </Button>
     </Flex>
   );
