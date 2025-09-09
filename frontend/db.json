@@ -14,15 +14,9 @@
     },
     {
       "id": "3",
-      "name": "Task 3 from Backend",
+      "name": "Task 3 from Backend Updated",
       "day": "Sept 8th at 7:00pm",
-      "reminder": false
-    },
-    {
-      "id": "0f76",
-      "name": "Task4 from Frontend",
-      "day": "Sept 9th at 2:00am",
-      "reminder": false
+      "reminder": true
     }
   ]
 }

@@ -21,6 +21,8 @@ export const TaskProvider = ({ children }) => {
       setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -40,16 +42,45 @@ export const TaskProvider = ({ children }) => {
     setShowForm(false);
   };
 
+  const deleteTask = async (id) => {
+    try {
+      await fetch(`/task/${id}`, { method: "DELETE" });
+      setTask(task.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Failed to delete task:", error);
+    }
+  };
+
+  const updateTask = async (id, updatedTask) => {
+    try {
+      const response = await fetch(`/task/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+      });
+      const data = await response.json();
+
+      setTask(
+        task.map((item) => (item.id === id ? { ...item, ...data } : item))
+      );
+    } catch (error) {
+      console.error("Failed to update task:", error);
+    }
+  };
+
   const startDeleteProcess = (id) => {
     setTaskIdToDelete(id);
     setIsAlertOpen(true);
   };
 
-  const handleConfirmDelete = () => {
-    setTask(task.filter((item) => item.id !== taskIdToDelete));
+  const handleConfirmDelete = async () => {
+    await deleteTask(taskIdToDelete);
     setIsAlertOpen(false);
     setTaskIdToDelete(null);
   };
+
   const handleCancelDelete = () => {
     setIsAlertOpen(false);
     setTaskIdToDelete(null);
@@ -61,12 +92,10 @@ export const TaskProvider = ({ children }) => {
   };
 
   // This function is called from the TaskForm component to update the main state
-  const updateTaskData = (updatedTask) => {
-    setTask(
-      task.map((item) => (item.id === updatedTask.id ? updatedTask : item))
-    );
-    setTaskToUpdate(null); // Clear the taskToUpdate state
-    setShowForm(false); // Hide the form after updating
+  const updateTaskData = async (updatedTask) => {
+    await updateTask(updatedTask.id, updatedTask);
+    setTaskToUpdate(null);
+    setShowForm(false);
   };
 
   return (
