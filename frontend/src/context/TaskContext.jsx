@@ -1,17 +1,17 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import taskData from "../data/TaskData.js";
 import { v4 as uuidv4 } from "uuid";
 
 const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
-  const [task, setTask] = useState(taskData); // Tasks stored in TaskData
-
+  const [task, setTask] = useState([]); // Tasks stored in TaskData
   // Special Code for using localStorage
   // const [task, setTask] = useState(() => {
   //   const savedTasks = localStorage.getItem("tasks");
   //   return savedTasks ? JSON.parse(savedTasks) : taskData;
   // });
+  const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -21,6 +21,21 @@ export const TaskProvider = ({ children }) => {
   // useEffect(() => {
   //   localStorage.setItem("tasks", JSON.stringify(task));
   // }, [task]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const fetchTasks = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/task");
+      const data = await res.json();
+      setTask(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch tasks:", error);
+    }
+  };
 
   const addTask = (newTask) => {
     newTask.id = uuidv4();
@@ -67,6 +82,7 @@ export const TaskProvider = ({ children }) => {
         taskToUpdate,
         isAlertOpen,
         taskIdToDelete,
+        isLoading,
         setShowForm,
         addTask,
         startDeleteProcess,
