@@ -28,7 +28,7 @@ export const TaskProvider = ({ children }) => {
 
   const fetchTasks = async () => {
     try {
-      const res = await fetch("http://localhost:5000/task");
+      const res = await fetch(`/task`);
       const data = await res.json();
       setTask(data);
       setIsLoading(false);
