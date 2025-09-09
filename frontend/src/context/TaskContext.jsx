@@ -1,26 +1,13 @@
 import { createContext, useState, useEffect } from "react";
-import taskData from "../data/TaskData.js";
-import { v4 as uuidv4 } from "uuid";
-
 const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [task, setTask] = useState([]); // Tasks stored in TaskData
-  // Special Code for using localStorage
-  // const [task, setTask] = useState(() => {
-  //   const savedTasks = localStorage.getItem("tasks");
-  //   return savedTasks ? JSON.parse(savedTasks) : taskData;
-  // });
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [taskIdToDelete, setTaskIdToDelete] = useState(null);
-
-  // LocalStorage - This effect runs whenever the `tasks` state changes
-  // useEffect(() => {
-  //   localStorage.setItem("tasks", JSON.stringify(task));
-  // }, [task]);
 
   useEffect(() => {
     fetchTasks();
@@ -37,12 +24,20 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
-  const addTask = (newTask) => {
-    newTask.id = uuidv4();
-    setTask([...task, newTask]);
+  const addTask = async (newTask) => {
+    const response = await fetch(`/task`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTask),
+    });
+
+    const data = await response.json();
+
+    setTask([...task, data]);
     setTaskToUpdate(null);
     setShowForm(false);
-    console.log(taskData);
   };
 
   const startDeleteProcess = (id) => {
