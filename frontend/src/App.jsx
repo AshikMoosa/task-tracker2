@@ -14,7 +14,7 @@ import { useConfirmation } from "./hooks/useConfirmation.js";
 function App() {
   const [showForm, setShowForm] = useState(false);
   // For confirmation dialog before deleting a task.
-  const { prompt, isOpen, onConfirm, onCancel } = useConfirmation();
+  const { prompt, isOpen, onConfirm, onCancel, data } = useConfirmation();
 
   return (
     <TaskProvider>
@@ -28,8 +28,8 @@ function App() {
               open={isOpen}
               onOpenChange={onCancel}
               onConfirm={onConfirm}
-              title="Delete Task"
-              message="Are you sure you want to delete this task?"
+              title={data?.title}
+              message={data?.message}
             />
             <Routes>
               <Route

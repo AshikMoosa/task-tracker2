@@ -2,8 +2,11 @@ import { useState, useCallback } from "react";
 
 export function useConfirmation() {
   const [promise, setPromise] = useState(null);
+  const [data, setData] = useState(null);
 
-  const prompt = useCallback(() => {
+  const prompt = useCallback((promptData = {}) => {
+    // promptData can hold our title/message
+    setData(promptData);
     return new Promise((resolve, reject) => {
       setPromise({ resolve, reject });
     });
@@ -30,5 +33,6 @@ export function useConfirmation() {
     isOpen,
     onConfirm: handleConfirm,
     onCancel: handleCancel,
+    data,
   };
 }
