@@ -1,10 +1,19 @@
-import { useContext } from "react";
+import TaskContext from "../context/TaskContext.jsx";
 import { Flex, Text, CloseButton, IconButton } from "@chakra-ui/react";
 import { Pencil } from "lucide-react";
-import TaskContext from "../context/TaskContext.jsx";
+import { useContext } from "react";
 
-const Task = ({ item }) => {
-  const { startDeleteProcess, getAndPrepareTaskData } = useContext(TaskContext);
+const Task = ({ item, onPromptDelete }) => {
+  const { deleteTask } = useContext(TaskContext);
+
+  const handleDelete = async () => {
+    try {
+      await onPromptDelete();
+      deleteTask(item.id);
+    } catch {
+      console.log("Deletion was cancelled.");
+    }
+  };
 
   return (
     <Flex
@@ -25,12 +34,12 @@ const Task = ({ item }) => {
           variant="ghost"
           size="sm"
           alignItems="baseline"
-          onClick={() => getAndPrepareTaskData(item)}
+          // onClick={() => getAndPrepareTaskData(item)}
         >
           <Pencil />
         </IconButton>
         <CloseButton
-          onClick={() => startDeleteProcess(item.id)}
+          onClick={handleDelete}
           color="red.500"
           alignItems="baseline"
         />

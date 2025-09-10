@@ -1,10 +1,8 @@
-import { useContext } from "react";
 import { Heading, Flex, Button } from "@chakra-ui/react";
-import TaskContext from "../context/TaskContext.jsx";
+import { IconButton } from "@chakra-ui/react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-const Header = () => {
-  const { showForm, setShowForm } = useContext(TaskContext);
-
+const Header = ({ showForm, setShowForm }) => {
   const handleClick = () => {
     setShowForm(!showForm);
   };
@@ -12,9 +10,15 @@ const Header = () => {
   return (
     <Flex justify="space-between">
       <Heading>Task Tracker</Heading>
-      <Button onClick={handleClick} colorPalette={showForm ? "red" : "gray"}>
-        {showForm ? "Close" : "Add"}
-      </Button>
+      <IconButton
+        variant="solid"
+        size="md"
+        alignItems="center"
+        onClick={handleClick}
+        colorPalette={showForm ? "red" : "gray"}
+      >
+        {showForm ? <ChevronUp /> : <ChevronDown />}
+      </IconButton>
     </Flex>
   );
 };

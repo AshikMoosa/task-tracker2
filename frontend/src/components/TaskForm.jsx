@@ -2,9 +2,8 @@ import { useState, useEffect, useContext } from "react";
 import { Field, Input, Checkbox, Button, Flex } from "@chakra-ui/react";
 import TaskContext from "../context/TaskContext.jsx";
 
-const TaskForm = () => {
-  const { showForm, addTask, updateTaskData, taskToUpdate } =
-    useContext(TaskContext);
+const TaskForm = ({ showForm }) => {
+  const { addTask, updateTask, taskToUpdate } = useContext(TaskContext);
   const [name, setName] = useState("");
   const [day, setDay] = useState("");
   const [reminder, setReminder] = useState(false);
@@ -32,7 +31,7 @@ const TaskForm = () => {
 
     if (taskToUpdate) {
       const updatedTask = { ...taskToUpdate, name, day, reminder };
-      updateTaskData(updatedTask);
+      updateTask(updatedTask);
     } else {
       const newTask = { name, day, reminder };
       addTask(newTask);
