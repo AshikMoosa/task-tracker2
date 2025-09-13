@@ -4,6 +4,7 @@ const TaskContext = createContext();
 export const TaskProvider = ({ children }) => {
   const [task, setTask] = useState([]); // Tasks stored in TaskData
   const [isLoading, setIsLoading] = useState(true);
+  const [taskToUpdate, setTaskToUpdate] = useState(null);
 
   useEffect(() => {
     fetchTasks();
@@ -59,6 +60,7 @@ export const TaskProvider = ({ children }) => {
       setTask(
         task.map((item) => (item.id === id ? { ...item, ...data } : item))
       );
+      setTaskToUpdate(null);
     } catch (error) {
       console.error("Failed to update task:", error);
     }
@@ -69,9 +71,11 @@ export const TaskProvider = ({ children }) => {
       value={{
         task,
         isLoading,
+        taskToUpdate,
         addTask,
         deleteTask,
         updateTask,
+        setTaskToUpdate,
       }}
     >
       {children}

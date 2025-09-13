@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router";
 import { useConfirmation } from "./hooks/useConfirmation.js";
 
 function App() {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   // For confirmation dialog before deleting a task.
   const { prompt, isOpen, onConfirm, onCancel, data } = useConfirmation();
 

@@ -31,7 +31,7 @@ const TaskForm = ({ showForm }) => {
 
     if (taskToUpdate) {
       const updatedTask = { ...taskToUpdate, name, day, reminder };
-      updateTask(updatedTask);
+      updateTask(taskToUpdate.id, updatedTask);
     } else {
       const newTask = { name, day, reminder };
       addTask(newTask);

@@ -4,11 +4,14 @@ import { Pencil } from "lucide-react";
 import { useContext } from "react";
 
 const Task = ({ item, onPromptDelete }) => {
-  const { deleteTask } = useContext(TaskContext);
+  const { deleteTask, setTaskToUpdate } = useContext(TaskContext);
 
   const handleDelete = async () => {
     try {
-      await onPromptDelete();
+      await onPromptDelete({
+        title: "Delete Task",
+        message: `Are you sure you want to delete "${item.name}"? This cannot be undone.`,
+      });
       deleteTask(item.id);
     } catch {
       console.log("Deletion was cancelled.");
@@ -34,7 +37,9 @@ const Task = ({ item, onPromptDelete }) => {
           variant="ghost"
           size="sm"
           alignItems="baseline"
-          // onClick={() => getAndPrepareTaskData(item)}
+          onClick={() => {
+            setTaskToUpdate(item);
+          }}
         >
           <Pencil />
         </IconButton>
