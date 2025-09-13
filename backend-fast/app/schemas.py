@@ -5,7 +5,7 @@ from typing import Optional
 # We create a base class to avoid repeating the same fields.
 # Both creating and reading tasks will share these fields.
 class TaskBase(BaseModel):
-    text: str
+    name: str
     day: Optional[str] = None  # Use Optional to make fields not required
     reminder: bool = False
 

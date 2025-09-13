@@ -7,6 +7,6 @@ class Task(Base):
 
     # Define the columns (fields) for the table
     id = Column(Integer, primary_key=True, index=True)
-    text = Column(String)
+    name = Column(String)
     day = Column(String)
     reminder = Column(Boolean, default=False)
