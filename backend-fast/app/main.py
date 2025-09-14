@@ -41,5 +41,22 @@ def read_all_tasks(db: Session = Depends(get_db)):
     tasks = crud.get_tasks(db=db)
     return tasks
 
-# (Your other new endpoints for GET-one, PATCH, DELETE can stay here,
-#  even if they are commented out or just not used by the frontend yet)
+@app.delete("/tasks/{task_id}", response_model=schemas.Task)
+def delete_existing_task(task_id: int, db: Session = Depends(get_db)):
+    deleted_task = crud.delete_task(db=db, task_id=task_id)
+    
+    if deleted_task is None:
+        raise HTTPException(status_code=404, detail="Task not found")
+        
+    return deleted_task
+
+@app.patch("/tasks/{task_id}", response_model=schemas.Task)
+def update_existing_task(task_id: int, task: schemas.TaskCreate, db: Session = Depends(get_db)):
+    # We pass all the data to our crud function
+    updated_task = crud.update_task(db=db, task_id=task_id, task=task)
+    
+    # If it returns None, it wasn't found, so raise a 404
+    if updated_task is None:
+        raise HTTPException(status_code=404, detail="Task not found")
+        
+    return updated_task

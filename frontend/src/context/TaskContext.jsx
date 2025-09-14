@@ -49,7 +49,7 @@ export const TaskProvider = ({ children }) => {
   const updateTask = async (id, updatedTask) => {
     try {
       const response = await fetch(`/tasks/${id}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
